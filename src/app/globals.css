@@ -70,3 +70,113 @@ html {
 .no-transition * {
   transition: none !important;
 }
+
+/* =====================================================
+   MOBILE OPTIMIZATIONS
+   ===================================================== */
+
+/* Touch-friendly minimum tap target size (44px recommended by Apple/Google) */
+@media (max-width: 768px) {
+  button:not([role="switch"]),
+  [role="button"],
+  a.btn,
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+  }
+
+  /* Larger touch targets for interactive elements */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Better spacing for mobile */
+  .mobile-spacing {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Stack buttons on mobile */
+  .mobile-stack {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Full width inputs on mobile */
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+}
+
+/* Safe area insets for devices with notches */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .bottom-nav-safe {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Bottom navigation spacing - add padding to main content when bottom nav is present */
+@media (max-width: 768px) {
+  .has-bottom-nav {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (min-width: 769px) {
+  .has-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
+/* Hide on desktop, show on mobile */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: flex;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Improved tap feedback */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  a:active,
+  [role="button"]:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+/* Prevent text selection on touch */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Smooth momentum scrolling on iOS */
+.scroll-smooth {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* Full-height mobile viewport fix */
+@supports (height: 100dvh) {
+  .min-h-screen-mobile {
+    min-height: 100dvh;
+  }
+}

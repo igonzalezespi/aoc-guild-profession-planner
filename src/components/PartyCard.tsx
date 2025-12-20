@@ -221,11 +221,11 @@ export function PartyCard({
             <div className="flex items-center justify-between pt-4 border-t border-slate-800">
               {/* Assign character */}
               {showAssign ? (
-                <div className="flex-1 flex items-center gap-2">
+                <div className="flex-1 flex flex-wrap items-center gap-2">
                   <select
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value as PartyRole)}
-                    className="px-2 py-1 bg-slate-800 border border-slate-600 rounded text-white text-sm cursor-pointer"
+                    className="w-24 px-2 py-1.5 bg-slate-800 border border-slate-600 rounded text-white text-sm cursor-pointer"
                   >
                     {(['tank', 'healer', 'dps', 'support'] as PartyRole[]).map(role => (
                       <option key={role} value={role}>
@@ -236,11 +236,11 @@ export function PartyCard({
                   <select
                     onChange={(e) => e.target.value && handleAssign(e.target.value)}
                     disabled={assigning || availableCharacters.length === 0}
-                    className="flex-1 px-2 py-1 bg-slate-800 border border-slate-600 rounded text-white text-sm cursor-pointer"
+                    className="flex-1 min-w-0 px-2 py-1.5 bg-slate-800 border border-slate-600 rounded text-white text-sm cursor-pointer truncate"
                     defaultValue=""
                   >
                     <option value="" disabled>
-                      {availableCharacters.length === 0 ? 'No available characters' : 'Select character...'}
+                      {availableCharacters.length === 0 ? 'No chars' : 'Select...'}
                     </option>
                     {availableCharacters.map(c => {
                       const arch = c.primary_archetype ? ARCHETYPES[c.primary_archetype as keyof typeof ARCHETYPES] : null;
@@ -253,7 +253,7 @@ export function PartyCard({
                   </select>
                   <button
                     onClick={() => setShowAssign(false)}
-                    className="p-1 text-slate-400 hover:text-white cursor-pointer"
+                    className="p-1.5 text-slate-400 hover:text-white cursor-pointer"
                   >
                     <X size={16} />
                   </button>

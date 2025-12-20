@@ -23,8 +23,12 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
 
   // Fetch current settings and applications
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchData() {
+      if (!isMounted) return;
       setError(null);
+      
       try {
         console.log('[RecruitmentSettings] Fetching clan settings for:', clanId);
         
@@ -35,9 +39,10 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
           .eq('id', clanId)
           .single();
 
+        if (!isMounted) return;
+
         if (clanError) {
           console.error('[RecruitmentSettings] Error fetching clan:', clanError);
-          // Don't throw, just log - the columns might not exist yet
         }
 
         if (clanData) {
@@ -48,7 +53,7 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
           setPublicDescription(clanData.public_description || '');
         }
 
-        // Fetch applications - might fail if table doesn't exist
+        // Fetch applications
         console.log('[RecruitmentSettings] Fetching applications...');
         const { data: appsData, error: appsError } = await supabase
           .from('recruitment_applications')
@@ -56,9 +61,10 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
           .eq('clan_id', clanId)
           .order('created_at', { ascending: false });
 
+        if (!isMounted) return;
+
         if (appsError) {
           console.error('[RecruitmentSettings] Error fetching applications:', appsError);
-          // Table might not exist yet, that's okay
         }
 
         if (appsData) {
@@ -67,15 +73,25 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
         }
       } catch (err) {
         console.error('[RecruitmentSettings] Unexpected error:', err);
-        setError('Failed to load settings');
+        if (isMounted) {
+          setError('Failed to load settings');
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     if (clanId) {
       fetchData();
+    } else {
+      setLoading(false);
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [clanId]);
 
   const handleSave = async () => {
@@ -187,15 +203,15 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
             </div>
             <button
               onClick={() => setIsPublic(!isPublic)}
-              className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                isPublic ? 'bg-orange-500' : 'bg-slate-600'
+              className={`flex items-center shrink-0 w-12 h-7 rounded-full cursor-pointer transition-colors p-1 ${
+                isPublic 
+                  ? 'bg-orange-500 justify-end' 
+                  : 'bg-slate-600 justify-start'
               }`}
+              role="switch"
+              aria-checked={isPublic}
             >
-              <div 
-                className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  isPublic ? 'left-7' : 'left-1'
-                }`} 
-              />
+              <span className="block w-5 h-5 bg-white rounded-full shadow-md" />
             </button>
           </div>
 
@@ -212,15 +228,15 @@ export function RecruitmentSettings({ clanId, clanSlug }: RecruitmentSettingsPro
             </div>
             <button
               onClick={() => setRecruitmentOpen(!recruitmentOpen)}
-              className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${
-                recruitmentOpen ? 'bg-green-500' : 'bg-slate-600'
+              className={`flex items-center shrink-0 w-12 h-7 rounded-full cursor-pointer transition-colors p-1 ${
+                recruitmentOpen 
+                  ? 'bg-green-500 justify-end' 
+                  : 'bg-slate-600 justify-start'
               }`}
+              role="switch"
+              aria-checked={recruitmentOpen}
             >
-              <div 
-                className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  recruitmentOpen ? 'left-7' : 'left-1'
-                }`} 
-              />
+              <span className="block w-5 h-5 bg-white rounded-full shadow-md" />
             </button>
           </div>
         </div>

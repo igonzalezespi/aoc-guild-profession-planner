@@ -17,6 +17,7 @@ import { PartiesList } from '@/components/PartiesList';
 import { CharacterFiltersBar, CharacterFilters, DEFAULT_FILTERS, filterCharacters } from '@/components/CharacterFilters';
 import { ClanSettings } from '@/components/ClanSettings';
 import { RecruitmentSettings } from '@/components/RecruitmentSettings';
+import { BottomNav } from '@/components/BottomNav';
 import { createClan, getClanBySlug } from '@/lib/auth';
 import { CharacterWithProfessions } from '@/lib/types';
 
@@ -103,7 +104,8 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
     toggleConfirmed,
   } = useParties(clanId, characters);
 
-  const loading = authLoading || membershipLoading || dataLoading || clanExists === null;
+  // Loading state - include clanExists check for initial load
+  const loading = authLoading || membershipLoading || (clanExists === null) || (clanExists && dataLoading);
 
   // Handle creating a new clan
   const handleCreateClan = async () => {
@@ -332,8 +334,8 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
               </div>
             </div>
 
-            {/* Center: Tab navigation */}
-            <div className="flex gap-1 bg-slate-800/50 rounded-lg p-1">
+            {/* Center: Tab navigation - hidden on mobile, shown on desktop */}
+            <div className="hidden md:flex gap-1 bg-slate-800/50 rounded-lg p-1">
               <TabButton
                 icon={<Swords size={18} />}
                 label="Characters"
@@ -386,8 +388,8 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
         </div>
       </header>
 
-      {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      {/* Main content - add bottom padding for mobile nav */}
+      <main className="max-w-7xl mx-auto px-4 py-6 has-bottom-nav">
         {activeTab === 'characters' ? (
           <div className="space-y-4">
             {canEdit && <AddCharacterButton onAdd={addCharacter} />}
@@ -494,7 +496,6 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
         ) : null}
       </main>
 
-      {/* Edit character modal */}
       {editingCharacter && (
         <CharacterForm
           initialData={{
@@ -513,6 +514,13 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
           isEditing
         />
       )}
+
+      {/* Bottom navigation for mobile */}
+      <BottomNav
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        canManage={canManageMembers}
+      />
     </div>
   );
 }

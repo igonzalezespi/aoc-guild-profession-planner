@@ -199,19 +199,19 @@ export function ClanMatrix({ members }: ClanMatrixProps) {
           </div>
 
           {/* Stats */}
-          <div className="flex gap-6 text-sm">
-            <div>
-              <span className="text-slate-400">Grandmasters:</span>
-              <span className={`ml-2 font-semibold ${RANK_COLORS[4].text}`}>{totalGM}</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+            <div className="whitespace-nowrap">
+              <span className="text-slate-400">GM:</span>
+              <span className={`ml-1 font-semibold ${RANK_COLORS[4].text}`}>{totalGM}</span>
             </div>
-            <div>
-              <span className="text-slate-400">Masters:</span>
-              <span className={`ml-2 font-semibold ${RANK_COLORS[3].text}`}>{totalMaster}</span>
+            <div className="whitespace-nowrap">
+              <span className="text-slate-400">Master:</span>
+              <span className={`ml-1 font-semibold ${RANK_COLORS[3].text}`}>{totalMaster}</span>
             </div>
             {uncoveredCount > 0 && (
-              <div>
-                <span className="text-slate-400">Uncovered:</span>
-                <span className="ml-2 font-semibold text-red-400">{uncoveredCount}</span>
+              <div className="whitespace-nowrap">
+                <span className="text-slate-400">Missing:</span>
+                <span className="ml-1 font-semibold text-red-400">{uncoveredCount}</span>
               </div>
             )}
           </div>
