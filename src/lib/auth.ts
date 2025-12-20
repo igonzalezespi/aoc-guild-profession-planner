@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { getURL } from './url';
 
 export type UserRole = 'admin' | 'officer' | 'member' | 'pending' | null;
 
@@ -25,7 +26,7 @@ export async function signInWithDiscord(redirectTo?: string) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
     options: {
-      redirectTo: redirectTo || `${window.location.origin}/auth/callback`,
+      redirectTo: redirectTo || `${getURL()}auth/callback`,
       scopes: 'identify',
     },
   });
