@@ -110,8 +110,14 @@ export function useClanMembership(clanId: string | null, userId: string | null):
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    await Promise.all([fetchMembership(), fetchMembers()]);
-    setLoading(false);
+    try {
+      await Promise.all([fetchMembership(), fetchMembers()]);
+    } catch (e) {
+      console.error('Error refreshing clan membership:', e);
+      setError(e instanceof Error ? e.message : 'Failed to refresh membership');
+    } finally {
+      setLoading(false);
+    }
   }, [fetchMembership, fetchMembers]);
 
   useEffect(() => {

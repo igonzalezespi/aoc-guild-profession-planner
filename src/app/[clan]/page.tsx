@@ -107,6 +107,18 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
   // Loading state - include clanExists check for initial load
   const loading = authLoading || membershipLoading || (clanExists === null) || (clanExists && dataLoading);
 
+  useEffect(() => {
+    if (loading) {
+      console.log('ClanPage loading state:', {
+        authLoading,
+        membershipLoading,
+        clanExists,
+        dataLoading,
+        loading
+      });
+    }
+  }, [loading, authLoading, membershipLoading, clanExists, dataLoading]);
+
   // Handle creating a new clan
   const handleCreateClan = async () => {
     if (!user) return;
