@@ -43,7 +43,7 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
       try {
         // Add timeout to prevent infinite hanging
         const timeoutPromise = new Promise<{ id: string } | null>((_, reject) => {
-          setTimeout(() => reject(new Error('Timeout checking clan')), 5000);
+          setTimeout(() => reject(new Error('Timeout checking clan')), 15000);
         });
 
         const clan = await Promise.race([
@@ -145,6 +145,9 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
       );
       setClanId(createdClan.id);
       setClanExists(true);
+      // Small delay to allow Supabase to propagate the new clan data
+      // This prevents the "Connection Error" on immediate refresh
+      await new Promise(resolve => setTimeout(resolve, 500));
       window.location.reload(); // Refresh to get proper membership state
     } catch (err) {
       console.error('Error creating clan:', err);
