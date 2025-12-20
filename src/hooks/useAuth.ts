@@ -30,10 +30,19 @@ export function useAuth(): UseAuthReturn {
 
   const fetchProfile = useCallback(async (userId: string) => {
     try {
-      const userProfile = await getUserProfile(userId);
+      const timeoutPromise = new Promise<UserProfile | null>((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout fetching profile')), 5000);
+      });
+
+      const userProfile = await Promise.race([
+        getUserProfile(userId),
+        timeoutPromise
+      ]) as UserProfile | null;
+
       setProfile(userProfile);
     } catch (error) {
       console.error('Error fetching profile:', error);
+      // Even if profile fetch fails/times out, we shouldn't block the UI forever
     }
   }, []);
 

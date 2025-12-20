@@ -39,7 +39,16 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
     async function checkClan() {
       console.log('checkClan: starting for slug', clanSlug);
       try {
-        const clan = await getClanBySlug(clanSlug);
+        // Add timeout to prevent infinite hanging
+        const timeoutPromise = new Promise<{ id: string } | null>((_, reject) => {
+          setTimeout(() => reject(new Error('Timeout checking clan')), 5000);
+        });
+
+        const clan = await Promise.race([
+          getClanBySlug(clanSlug),
+          timeoutPromise
+        ]) as { id: string } | null;
+
         console.log('checkClan: result', clan);
         if (clan) {
           setClanId(clan.id);
