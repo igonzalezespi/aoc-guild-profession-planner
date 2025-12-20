@@ -37,8 +37,10 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
   // Fetch clan ID first
   useEffect(() => {
     async function checkClan() {
+      console.log('checkClan: starting for slug', clanSlug);
       try {
         const clan = await getClanBySlug(clanSlug);
+        console.log('checkClan: result', clan);
         if (clan) {
           setClanId(clan.id);
           setClanExists(true);
