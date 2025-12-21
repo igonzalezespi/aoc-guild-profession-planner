@@ -6,6 +6,7 @@ import { EventWithRsvps, Announcement, RsvpStatus } from '@/lib/events';
 import { EventCard } from './EventCard';
 import { EventForm } from './EventForm';
 import { AnnouncementForm } from './AnnouncementForm';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface EventsListProps {
   events: EventWithRsvps[];
@@ -42,6 +43,7 @@ export function EventsList({
   const [showAnnouncementForm, setShowAnnouncementForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState<EventWithRsvps | null>(null);
   const [editingAnnouncement, setEditingAnnouncement] = useState<Announcement | null>(null);
+  const { t } = useLanguage();
 
   // Split events into upcoming and past
   const now = new Date();
@@ -80,7 +82,7 @@ export function EventsList({
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-slate-400 flex items-center gap-2">
             <Pin size={14} />
-            Pinned Announcements
+            {t('announcements.pinned')}
           </h3>
           {pinnedAnnouncements.map(announcement => (
             <div
@@ -119,7 +121,7 @@ export function EventsList({
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-slate-400 flex items-center gap-2">
             <Megaphone size={14} />
-            Recent Announcements
+            {t('announcements.title')}
           </h3>
           {recentAnnouncements.map(announcement => (
             <div
@@ -157,7 +159,7 @@ export function EventsList({
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
           <Calendar className="w-5 h-5 text-orange-400" />
-          Upcoming Events
+          {t('event.upcomingEvents')}
           {upcomingEvents.length > 0 && (
             <span className="text-sm font-normal text-slate-400">
               ({upcomingEvents.length})
@@ -171,14 +173,14 @@ export function EventsList({
               className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 text-sm font-medium rounded-lg transition-colors cursor-pointer border border-amber-500/30"
             >
               <Megaphone size={16} />
-              Announce
+              {t('announcements.createAnnouncement')}
             </button>
             <button
               onClick={() => setShowEventForm(true)}
               className="flex items-center gap-2 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer"
             >
               <Plus size={16} />
-              Create Event
+              {t('event.createEvent')}
             </button>
           </div>
         )}
@@ -188,9 +190,9 @@ export function EventsList({
       {upcomingEvents.length === 0 ? (
         <div className="text-center py-12 text-slate-500">
           <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p>No upcoming events</p>
+          <p>{t('event.noEvents')}</p>
           {canManage && (
-            <p className="text-sm mt-2">Create an event to start organizing your guild.</p>
+            <p className="text-sm mt-2">{t('siege.noUpcomingDesc')}</p>
           )}
         </div>
       ) : (

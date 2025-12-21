@@ -427,12 +427,12 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
               {characters.length === 0 ? (
                 <div className="text-center py-12 text-slate-500">
                   <Swords className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No characters yet. Add your first guild character above!</p>
+                  <p>{t('clan.noCharacters')}</p>
                 </div>
               ) : filterCharacters(characters, characterFilters).length === 0 ? (
                 <div className="text-center py-12 text-slate-500">
                   <Swords className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No characters match your filters.</p>
+                  <p>{t('clan.noCharactersMatch')}</p>
                 </div>
               ) : (
                 filterCharacters(characters, characterFilters).map((character) => (
@@ -495,6 +495,7 @@ export default function ClanPage({ params }: { params: Promise<{ clan: string }>
                 onUpdateRole={canManageRoles ? updateRole : undefined}
                 onRemove={canManageRoles ? removeMember : undefined}
                 currentUserId={user.id}
+                t={t}
               />
               
               {/* Clan Settings (Admin only) */}
@@ -592,6 +593,7 @@ function ManageTab({
   onUpdateRole,
   onRemove,
   currentUserId,
+  t,
 }: {
   members: Array<{
     id: string;
@@ -606,6 +608,7 @@ function ManageTab({
   onUpdateRole?: (id: string, role: 'admin' | 'officer' | 'member') => Promise<void>;
   onRemove?: (id: string) => Promise<void>;
   currentUserId: string;
+  t: (key: string) => string;
 }) {
   return (
     <div className="space-y-6">
@@ -614,7 +617,7 @@ function ManageTab({
         <div>
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <Clock className="text-yellow-400" size={20} />
-            Pending Applications ({pendingMembers.length})
+            {t('members.pendingApplications')} ({pendingMembers.length})
           </h2>
           <div className="space-y-2">
             {pendingMembers.map((member) => (
@@ -641,13 +644,13 @@ function ManageTab({
                     onClick={() => onAccept(member.id)}
                     className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm cursor-pointer"
                   >
-                    Accept
+                    {t('members.accept')}
                   </button>
                   <button
                     onClick={() => onReject(member.id)}
                     className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm cursor-pointer"
                   >
-                    Reject
+                    {t('members.reject')}
                   </button>
                 </div>
               </div>
@@ -660,7 +663,7 @@ function ManageTab({
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           <Users className="text-cyan-400" size={20} />
-          Members ({members.length})
+          {t('members.title')} ({members.length})
         </h2>
         <div className="space-y-2">
           {members.map((member) => (
@@ -699,16 +702,16 @@ function ManageTab({
                     onChange={(e) => onUpdateRole(member.id, e.target.value as 'admin' | 'officer' | 'member')}
                     className="bg-slate-800 border border-slate-600 rounded px-3 py-1 text-white text-sm cursor-pointer"
                   >
-                    <option value="member">Member</option>
-                    <option value="officer">Officer</option>
-                    <option value="admin">Admin</option>
+                    <option value="member">{t('clan.member')}</option>
+                    <option value="officer">{t('clan.officer')}</option>
+                    <option value="admin">{t('clan.admin')}</option>
                   </select>
                   {onRemove && (
                     <button
                       onClick={() => onRemove(member.id)}
                       className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm cursor-pointer"
                     >
-                      Remove
+                      {t('members.remove')}
                     </button>
                   )}
                 </div>

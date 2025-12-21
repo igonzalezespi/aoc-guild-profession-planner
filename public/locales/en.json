@@ -171,10 +171,13 @@
   "members": {
     "title": "Members",
     "pending": "Pending",
+    "pendingApplications": "Pending Applications",
     "noPending": "No pending applications",
     "promote": "Promote",
     "demote": "Demote",
     "remove": "Remove",
+    "accept": "Accept",
+    "reject": "Reject",
     "addMember": "Add Member",
     "removeMember": "Remove Member",
     "memberSince": "Member since",

@@ -171,10 +171,13 @@
   "members": {
     "title": "Miembros",
     "pending": "Pendientes",
+    "pendingApplications": "Solicitudes Pendientes",
     "noPending": "No hay solicitudes pendientes",
     "promote": "Ascender",
     "demote": "Degradar",
     "remove": "Eliminar",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
     "addMember": "Añadir Miembro",
     "removeMember": "Eliminar Miembro",
     "memberSince": "Miembro desde",
