@@ -1,0 +1,100 @@
+{
+  "list": [
+    { "id": "tank", "name": "Tank", "icon": "🛡️", "color": "text-blue-400", "role": "tank" },
+    { "id": "fighter", "name": "Fighter", "icon": "⚔️", "color": "text-red-400", "role": "dps" },
+    { "id": "rogue", "name": "Rogue", "icon": "🗡️", "color": "text-amber-400", "role": "dps" },
+    { "id": "ranger", "name": "Ranger", "icon": "🏹", "color": "text-green-400", "role": "dps" },
+    { "id": "mage", "name": "Mage", "icon": "🔥", "color": "text-purple-400", "role": "dps" },
+    { "id": "summoner", "name": "Summoner", "icon": "👻", "color": "text-indigo-400", "role": "dps" },
+    { "id": "cleric", "name": "Cleric", "icon": "✨", "color": "text-yellow-400", "role": "healer" },
+    { "id": "bard", "name": "Bard", "icon": "🎵", "color": "text-pink-400", "role": "support" }
+  ],
+  "classes": {
+    "tank": {
+      "tank": "Guardian",
+      "fighter": "Warden",
+      "rogue": "Nightshield",
+      "ranger": "Sentinel",
+      "mage": "Spellshield",
+      "summoner": "Keeper",
+      "cleric": "Paladin",
+      "bard": "Argent"
+    },
+    "fighter": {
+      "tank": "Highsword",
+      "fighter": "Weapon Master",
+      "rogue": "Shadowblade",
+      "ranger": "Strider",
+      "mage": "Spellsword",
+      "summoner": "Bladecaller",
+      "cleric": "Crusader",
+      "bard": "Bladedancer"
+    },
+    "rogue": {
+      "tank": "Shadow Guardian",
+      "fighter": "Duelist",
+      "rogue": "Assassin",
+      "ranger": "Predator",
+      "mage": "Shadow Caster",
+      "summoner": "Shadow Lord",
+      "cleric": "Shadow Disciple",
+      "bard": "Charlatan"
+    },
+    "ranger": {
+      "tank": "Warden",
+      "fighter": "Hunter",
+      "rogue": "Scout",
+      "ranger": "Hawkeye",
+      "mage": "Scion",
+      "summoner": "Falconer",
+      "cleric": "Protector",
+      "bard": "Bowsinger"
+    },
+    "mage": {
+      "tank": "Battlemage",
+      "fighter": "Spellhunter",
+      "rogue": "Shadow Mage",
+      "ranger": "Spellhunter",
+      "mage": "Archwizard",
+      "summoner": "Warlock",
+      "cleric": "Acolyte",
+      "bard": "Sorcerer"
+    },
+    "summoner": {
+      "tank": "Brood Warden",
+      "fighter": "Wild Blade",
+      "rogue": "Shadowmancer",
+      "ranger": "Beastmaster",
+      "mage": "Spellmancer",
+      "summoner": "Conjurer",
+      "cleric": "Necromancer",
+      "bard": "Enchantress"
+    },
+    "cleric": {
+      "tank": "Templar",
+      "fighter": "Highpriest",
+      "rogue": "Shadow Priest",
+      "ranger": "Druid",
+      "mage": "Oracle",
+      "summoner": "Shaman",
+      "cleric": "High Priest",
+      "bard": "Scryer"
+    },
+    "bard": {
+      "tank": "Siren",
+      "fighter": "Tellsword",
+      "rogue": "Trickster",
+      "ranger": "Song Warden",
+      "mage": "Songcaller",
+      "summoner": "Soul Weaver",
+      "cleric": "Song of the Faithful",
+      "bard": "Minstrel"
+    }
+  },
+  "roles": {
+    "tank": { "name": "Tank", "icon": "🛡️", "color": "text-blue-400" },
+    "healer": { "name": "Healer", "icon": "💚", "color": "text-green-400" },
+    "dps": { "name": "DPS", "icon": "⚔️", "color": "text-red-400" },
+    "support": { "name": "Support", "icon": "✨", "color": "text-yellow-400" }
+  }
+}

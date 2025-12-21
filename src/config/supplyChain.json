@@ -1,0 +1,81 @@
+{
+  "chains": [
+    {
+      "id": "metal_weapons",
+      "name": "Metal Weapons",
+      "description": "Swords, axes, maces, and other metal weapons",
+      "flow": ["mining", "metalworking", "weapon_smithing"],
+      "icon": "⚔️"
+    },
+    {
+      "id": "wooden_weapons",
+      "name": "Wooden Weapons",
+      "description": "Bows, staves, and wooden components",
+      "flow": ["lumberjacking", "lumber_milling", "carpentry"],
+      "icon": "🏹"
+    },
+    {
+      "id": "plate_armor",
+      "name": "Plate Armor",
+      "description": "Heavy metal armor",
+      "flow": ["mining", "metalworking", "armor_smithing"],
+      "icon": "🛡️"
+    },
+    {
+      "id": "leather_armor",
+      "name": "Leather Armor",
+      "description": "Medium armor and bags",
+      "flow": ["hunting", "tanning", "leatherworking"],
+      "icon": "👜"
+    },
+    {
+      "id": "cloth_armor",
+      "name": "Cloth Armor",
+      "description": "Light armor and robes",
+      "flow": ["herbalism", "farming", "weaving", "tailoring"],
+      "icon": "👘"
+    },
+    {
+      "id": "jewelry",
+      "name": "Jewelry",
+      "description": "Rings, necklaces, and accessories",
+      "flow": ["mining", "stonemasonry", "metalworking", "jewelcrafting"],
+      "icon": "💎"
+    },
+    {
+      "id": "potions",
+      "name": "Potions & Consumables",
+      "description": "Health potions, buffs, and other consumables",
+      "flow": ["herbalism", "alchemy"],
+      "icon": "⚗️"
+    },
+    {
+      "id": "food",
+      "name": "Food & Cooking",
+      "description": "Buff food and cooking materials",
+      "flow": ["fishing", "farming", "animal_husbandry", "cooking"],
+      "icon": "🍳"
+    },
+    {
+      "id": "siege_equipment",
+      "name": "Siege Equipment",
+      "description": "Trebuchets, rams, and magical devices",
+      "flow": ["mining", "lumberjacking", "metalworking", "lumber_milling", "jewelcrafting", "arcane_engineering"],
+      "icon": "🔮"
+    },
+    {
+      "id": "scrolls",
+      "name": "Scrolls & Enchants",
+      "description": "Recipes, scrolls, and enchantments",
+      "flow": ["lumberjacking", "herbalism", "hunting", "lumber_milling", "alchemy", "tanning", "scribe"],
+      "icon": "📜"
+    },
+    {
+      "id": "mounts",
+      "name": "Mounts & Pets",
+      "description": "Breeding and raising animals",
+      "flow": ["hunting", "animal_husbandry"],
+      "icon": "🐴"
+    }
+  ]
+}

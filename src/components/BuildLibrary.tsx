@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Hammer, Search, Heart, Copy, Eye, Plus, Filter } from 'lucide-react';
+import { Hammer, Search, Heart, Copy, Eye, Plus, Filter, Clock } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { BuildWithDetails, BuildVisibility } from '@/lib/types';
 import { BuildData } from '@/hooks/useBuilds';
@@ -23,6 +23,7 @@ export function BuildLibrary({
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('all');
   const [archetypeFilter, setArchetypeFilter] = useState<string>('all');
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   // Filter builds
   const filteredBuilds = builds.filter((build) => {
@@ -47,8 +48,21 @@ export function BuildLibrary({
     await onCopy(buildId);
   };
 
+  const handleCreateClick = () => {
+    setShowComingSoon(true);
+    setTimeout(() => setShowComingSoon(false), 3000);
+  };
+
   return (
     <div className="space-y-4">
+      {/* Coming Soon Toast */}
+      {showComingSoon && (
+        <div className="fixed bottom-20 sm:bottom-4 right-4 z-50 flex items-center gap-2 px-4 py-3 bg-amber-900/90 border border-amber-700 rounded-lg text-white animate-in slide-in-from-right-5">
+          <Clock className="w-5 h-5 text-amber-400" />
+          <span className="text-sm">{t('common.comingSoon')} — Build Planner</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -56,12 +70,11 @@ export function BuildLibrary({
           {t('builds.title')}
         </h2>
         <button
-          onClick={() => {
-            // TODO: Show build editor modal
-          }}
-          className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg text-sm font-medium transition-colors"
+          onClick={handleCreateClick}
+          className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg text-sm font-medium transition-colors"
+          title={t('common.comingSoon')}
         >
-          <Plus className="w-4 h-4" />
+          <Clock className="w-4 h-4 text-amber-400" />
           {t('builds.createBuild')}
         </button>
       </div>

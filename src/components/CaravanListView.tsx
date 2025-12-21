@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { Truck, MapPin, Users, Clock, Coins, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { CaravanEventWithDetails, CaravanStatus } from '@/lib/types';
 import { CaravanData } from '@/hooks/useCaravans';
+import { CaravanForm } from './CaravanForm';
 
 interface CaravanListViewProps {
   caravans: CaravanEventWithDetails[];
@@ -31,6 +33,7 @@ export function CaravanListView({
   isOfficer,
 }: CaravanListViewProps) {
   const { t } = useLanguage();
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -43,25 +46,30 @@ export function CaravanListView({
     });
   };
 
+  const handleCreateCaravan = async (data: CaravanData) => {
+    if (!onCreateCaravan) return;
+    await onCreateCaravan(data);
+    setShowCreateForm(false);
+  };
+
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Truck className="w-5 h-5 text-amber-400" />
-          {t('caravan.title')}
-        </h2>
-        {onCreateCaravan && isOfficer && (
-          <button
-            onClick={() => {
-              // TODO: Show caravan form modal
-            }}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-medium transition-colors"
-          >
-            + {t('caravan.createCaravan')}
-          </button>
-        )}
-      </div>
+    <>
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <Truck className="w-5 h-5 text-amber-400" />
+            {t('caravan.title')}
+          </h2>
+          {onCreateCaravan && isOfficer && (
+            <button
+              onClick={() => setShowCreateForm(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              + {t('caravan.createCaravan')}
+            </button>
+          )}
+        </div>
 
       {/* Caravan List */}
       {caravans.length === 0 ? (
@@ -187,6 +195,14 @@ export function CaravanListView({
           ))}
         </div>
       )}
-    </div>
+      </div>
+
+      {/* Create Caravan Modal */}
+      <CaravanForm
+        isOpen={showCreateForm}
+        onClose={() => setShowCreateForm(false)}
+        onSubmit={handleCreateCaravan}
+      />
+    </>
   );
 }

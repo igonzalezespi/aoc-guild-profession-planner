@@ -1,37 +1,25 @@
 import { Profession, ProfessionTier, RankLevel, RANK_LIMITS } from './types';
+import { professionsConfig } from '@/config';
 
 // ============================================================
-// PROFESSION DATA - Based on official Ashes of Creation sources
+// PROFESSION DATA - Loaded from configuration files
 // ============================================================
+
+// Build professions array from config
+const buildProfessionFromConfig = (
+  config: { id: string; name: string; icon: string; dependencies: string[] },
+  tier: ProfessionTier
+): Profession => ({
+  id: config.id,
+  name: config.name,
+  tier,
+  dependencies: config.dependencies,
+});
 
 export const PROFESSIONS: Profession[] = [
-  // ================== GATHERING (5) ==================
-  { id: 'mining', name: 'Mining', tier: 'gathering', dependencies: [] },
-  { id: 'lumberjacking', name: 'Lumberjacking', tier: 'gathering', dependencies: [] },
-  { id: 'herbalism', name: 'Herbalism', tier: 'gathering', dependencies: [] },
-  { id: 'fishing', name: 'Fishing', tier: 'gathering', dependencies: [] },
-  { id: 'hunting', name: 'Hunting', tier: 'gathering', dependencies: [] },
-
-  // ================== PROCESSING (9) ==================
-  { id: 'metalworking', name: 'Metalworking', tier: 'processing', dependencies: ['mining'] },
-  { id: 'lumber_milling', name: 'Lumber Milling', tier: 'processing', dependencies: ['lumberjacking'] },
-  { id: 'stonemasonry', name: 'Stonemasonry', tier: 'processing', dependencies: ['mining'] },
-  { id: 'weaving', name: 'Weaving', tier: 'processing', dependencies: ['herbalism', 'farming'] },
-  { id: 'tanning', name: 'Tanning', tier: 'processing', dependencies: ['hunting'] },
-  { id: 'alchemy', name: 'Alchemy', tier: 'processing', dependencies: ['herbalism'] },
-  { id: 'farming', name: 'Farming', tier: 'processing', dependencies: ['herbalism'] },
-  { id: 'animal_husbandry', name: 'Animal Husbandry', tier: 'processing', dependencies: ['hunting'] },
-  { id: 'cooking', name: 'Cooking', tier: 'processing', dependencies: ['fishing', 'farming', 'animal_husbandry'] },
-
-  // ================== CRAFTING (8) ==================
-  { id: 'weapon_smithing', name: 'Weapon Smithing', tier: 'crafting', dependencies: ['metalworking', 'lumber_milling'] },
-  { id: 'armor_smithing', name: 'Armor Smithing', tier: 'crafting', dependencies: ['metalworking', 'weaving', 'tanning'] },
-  { id: 'leatherworking', name: 'Leatherworking', tier: 'crafting', dependencies: ['tanning'] },
-  { id: 'tailoring', name: 'Tailoring', tier: 'crafting', dependencies: ['weaving', 'tanning'] },
-  { id: 'jewelcrafting', name: 'Jewelcrafting', tier: 'crafting', dependencies: ['stonemasonry', 'metalworking'] },
-  { id: 'carpentry', name: 'Carpentry', tier: 'crafting', dependencies: ['lumber_milling', 'metalworking'] },
-  { id: 'arcane_engineering', name: 'Arcane Engineering', tier: 'crafting', dependencies: ['lumber_milling', 'metalworking', 'jewelcrafting'] },
-  { id: 'scribe', name: 'Scribe', tier: 'crafting', dependencies: ['lumber_milling', 'alchemy', 'tanning'] },
+  ...professionsConfig.gathering.map(p => buildProfessionFromConfig(p, 'gathering')),
+  ...professionsConfig.processing.map(p => buildProfessionFromConfig(p, 'processing')),
+  ...professionsConfig.crafting.map(p => buildProfessionFromConfig(p, 'crafting')),
 ];
 
 // Lookup maps for quick access
@@ -45,12 +33,23 @@ export const PROFESSIONS_BY_TIER: Record<ProfessionTier, Profession[]> = {
   crafting: PROFESSIONS.filter((p) => p.tier === 'crafting'),
 };
 
-// Tier display configuration
-export const TIER_CONFIG: Record<ProfessionTier, { label: string; icon: string; color: string }> = {
-  gathering: { label: 'Gathering', icon: '🪓', color: 'text-amber-400' },
-  processing: { label: 'Processing', icon: '⚙️', color: 'text-cyan-400' },
-  crafting: { label: 'Crafting', icon: '🔨', color: 'text-rose-400' },
-};
+// Tier display configuration - from config
+export const TIER_CONFIG: Record<ProfessionTier, { label: string; icon: string; color: string }> = 
+  professionsConfig.tiers as Record<ProfessionTier, { label: string; icon: string; color: string }>;
+
+// Rank configuration - from config
+export const RANK_CONFIG = professionsConfig.ranks as Record<string, { name: string; short: string; color: string }>;
+
+// Get profession icon from config
+export function getProfessionIcon(professionId: string): string {
+  const allProfessions = [
+    ...professionsConfig.gathering,
+    ...professionsConfig.processing,
+    ...professionsConfig.crafting,
+  ];
+  return allProfessions.find(p => p.id === professionId)?.icon || '❓';
+}
+
 
 // ============================================================
 // HELPER FUNCTIONS
