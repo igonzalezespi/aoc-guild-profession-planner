@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PartyWithRoster, PartyRole, PARTY_ROLES, CharacterWithProfessions } from '@/lib/types';
 import { ARCHETYPES } from '@/lib/characters';
 import { ChevronDown, ChevronUp, Users, Trash2, UserPlus, Check, X, Edit2 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PartyCardProps {
   party: PartyWithRoster;
@@ -48,6 +49,7 @@ export function PartyCard({
   const [showAssign, setShowAssign] = useState(false);
   const [selectedRole, setSelectedRole] = useState<PartyRole>('dps');
   const [assigning, setAssigning] = useState(false);
+  const { t } = useLanguage();
 
   const roleCounts = getRoleCounts(party);
   const roleNeeded = getRoleNeeded(party);
@@ -208,7 +210,7 @@ export function PartyCard({
                       key={`empty-${i}`}
                       className="p-2 rounded border border-dashed border-slate-700 text-slate-500 text-sm italic"
                     >
-                      Empty slot
+                      {t('party.emptySlot')}
                     </div>
                   ))}
                 </div>
@@ -264,7 +266,7 @@ export function PartyCard({
                   className="flex items-center gap-2 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded text-sm transition-colors cursor-pointer"
                 >
                   <UserPlus size={14} />
-                  Add Character
+                  {t('party.addCharacterToParty')}
                 </button>
               )}
 
@@ -272,14 +274,14 @@ export function PartyCard({
                 <button
                   onClick={onEdit}
                   className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded transition-colors cursor-pointer"
-                  title="Edit party"
+                  title={t('party.editParty')}
                 >
                   <Edit2 size={16} />
                 </button>
                 <button
                   onClick={onDelete}
                   className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded transition-colors cursor-pointer"
-                  title="Delete party"
+                  title={t('party.deleteParty')}
                 >
                   <Trash2 size={16} />
                 </button>

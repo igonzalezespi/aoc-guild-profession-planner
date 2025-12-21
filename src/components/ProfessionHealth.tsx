@@ -3,6 +3,7 @@
 import { MemberWithProfessions, RANK_COLORS } from '@/lib/types';
 import { PROFESSIONS, PROFESSIONS_BY_TIER, TIER_CONFIG, PROFESSION_BY_ID } from '@/lib/professions';
 import { AlertTriangle, TrendingUp, CheckCircle, XCircle, Target } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProfessionHealthProps {
   members: MemberWithProfessions[];
@@ -191,6 +192,7 @@ function TierBar({ score, icon, color }: { score: number; icon: string; color: s
 
 export function ProfessionHealth({ members }: ProfessionHealthProps) {
   const metrics = calculateHealthMetrics(members);
+  const { t } = useLanguage();
 
   const scoreColor = metrics.overallScore >= 70 ? 'text-green-400' :
                      metrics.overallScore >= 40 ? 'text-yellow-400' : 'text-red-400';
@@ -203,7 +205,7 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
       {/* Overall Score */}
       <div className="bg-slate-900/80 backdrop-blur-sm rounded-lg border border-slate-700 p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-slate-400">Guild Readiness</h3>
+          <h3 className="text-sm font-medium text-slate-400">{t('matrix.clanReadiness')}</h3>
           <ScoreIcon className={`w-5 h-5 ${scoreColor}`} />
         </div>
         <div className="text-4xl font-bold mb-4">
@@ -211,7 +213,7 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
           <span className="text-slate-600 text-2xl">/100</span>
         </div>
         <div className="space-y-3">
-          <ScoreBar label="Any Coverage" score={metrics.coverageScore} color="text-slate-300" />
+          <ScoreBar label={t('matrix.anyCoverage')} score={metrics.coverageScore} color="text-slate-300" />
           <ScoreBar label="Master+" score={metrics.masterScore} color={RANK_COLORS[3].text} />
           <ScoreBar label="Grandmaster" score={metrics.grandmasterScore} color={RANK_COLORS[4].text} />
         </div>
@@ -219,7 +221,7 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
 
       {/* Tier Balance */}
       <div className="bg-slate-900/80 backdrop-blur-sm rounded-lg border border-slate-700 p-4">
-        <h3 className="text-sm font-medium text-slate-400 mb-4">Tier Balance (Master+)</h3>
+        <h3 className="text-sm font-medium text-slate-400 mb-4">{t('matrix.tierBalance')}</h3>
         <div className="space-y-4">
           <TierBar 
             score={metrics.tierBalance.gathering} 
@@ -244,7 +246,7 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
             <div className="flex items-center gap-2 text-red-400">
               <AlertTriangle size={14} />
               <span className="text-sm">
-                {metrics.criticalGaps.length} professions without Master
+                {metrics.criticalGaps.length} {t('matrix.professionsWithoutMaster').replace('{{count}}', '')}
               </span>
             </div>
           </div>
@@ -255,7 +257,7 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
       <div className="bg-slate-900/80 backdrop-blur-sm rounded-lg border border-slate-700 p-4">
         <div className="flex items-center gap-2 mb-4">
           <Target className="w-4 h-4 text-orange-400" />
-          <h3 className="text-sm font-medium text-slate-400">Recommendations</h3>
+          <h3 className="text-sm font-medium text-slate-400">{t('matrix.recommendations')}</h3>
         </div>
         {metrics.recommendations.length > 0 ? (
           <ul className="space-y-2">
@@ -269,14 +271,14 @@ export function ProfessionHealth({ members }: ProfessionHealthProps) {
         ) : (
           <div className="text-sm text-green-400 flex items-center gap-2">
             <CheckCircle size={16} />
-            <span>Guild is well-balanced!</span>
+            <span>{t('matrix.wellBalanced')}</span>
           </div>
         )}
 
         {/* Supply Chain Breaks */}
         {metrics.supplyChainBreaks.length > 0 && (
           <div className="mt-4 pt-4 border-t border-slate-800">
-            <div className="text-xs text-slate-500 mb-2">Supply Chain Issues:</div>
+            <div className="text-xs text-slate-500 mb-2">{t('matrix.supplyChainIssues')}:</div>
             {metrics.supplyChainBreaks.slice(0, 2).map((brk, i) => (
               <div key={i} className="text-xs text-yellow-400">
                 {brk.profession} ← missing {brk.missingDeps.join(', ')}

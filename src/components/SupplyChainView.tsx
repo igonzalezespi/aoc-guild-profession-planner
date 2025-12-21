@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MemberWithProfessions, RANK_COLORS } from '@/lib/types';
 import { PROFESSION_BY_ID, PROFESSIONS_BY_TIER, TIER_CONFIG, getFullDependencyChain } from '@/lib/professions';
 import { ChevronRight, Users, AlertTriangle, CheckCircle, Link2 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface SupplyChainViewProps {
   members: MemberWithProfessions[];
@@ -73,6 +74,7 @@ function getCrafterInfo(members: MemberWithProfessions[]): CrafterInfo[] {
 
 function SupplyChainCard({ info }: { info: CrafterInfo }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useLanguage();
   
   const hasCrafters = info.crafters.length > 0;
   const hasMasterCrafter = info.crafters.some(c => c.rank >= 3);
@@ -99,12 +101,12 @@ function SupplyChainCard({ info }: { info: CrafterInfo }) {
           <div className="flex items-center gap-2">
             {/* Status indicators */}
             {hasSupplyIssue && (
-              <span className="text-yellow-400" title="Missing suppliers">
+              <span className="text-yellow-400" title={t('matrix.missingSuppliers')}>
                 <AlertTriangle size={14} />
               </span>
             )}
             {hasMasterCrafter && !hasSupplyIssue && (
-              <span className="text-green-400" title="Fully supplied">
+              <span className="text-green-400" title={t('matrix.fullySupplied')}>
                 <CheckCircle size={14} />
               </span>
             )}
@@ -141,7 +143,7 @@ function SupplyChainCard({ info }: { info: CrafterInfo }) {
                 ))}
               </div>
             ) : (
-              <span className="text-xs text-slate-500 italic">No crafters yet</span>
+              <span className="text-xs text-slate-500 italic">{t('party.noChars')}</span>
             )}
           </div>
 
@@ -182,7 +184,7 @@ function SupplyChainCard({ info }: { info: CrafterInfo }) {
                           )}
                         </div>
                       ) : (
-                        <span className="text-xs text-red-400 italic">No suppliers!</span>
+                        <span className="text-xs text-red-400 italic">{t('matrix.noSuppliers')}</span>
                       )}
                     </div>
                   );

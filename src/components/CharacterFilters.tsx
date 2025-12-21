@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Search, X, Filter, ChevronDown } from 'lucide-react';
 import { RACES, ARCHETYPES, RaceId, ArchetypeId } from '@/lib/characters';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface CharacterFilters {
   search: string;
@@ -36,6 +37,7 @@ export function CharacterFiltersBar({
   filteredCount,
 }: CharacterFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useLanguage();
   
   const hasActiveFilters = 
     filters.search !== '' || 
@@ -60,7 +62,7 @@ export function CharacterFiltersBar({
             type="text"
             value={filters.search}
             onChange={(e) => onChange({ ...filters, search: e.target.value })}
-            placeholder="Search characters..."
+            placeholder={t('character.searchPlaceholder')}
             className="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
           {filters.search && (
@@ -96,13 +98,13 @@ export function CharacterFiltersBar({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-slate-800">
           {/* Race filter */}
           <div>
-            <label className="text-xs text-slate-400 mb-1 block">Race</label>
+            <label className="text-xs text-slate-400 mb-1 block">{t('filters.race')}</label>
             <select
               value={filters.race}
               onChange={(e) => onChange({ ...filters, race: e.target.value as RaceId | '' })}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
             >
-              <option value="">All Races</option>
+              <option value="">{t('filters.allRaces')}</option>
               {Object.entries(RACES).map(([id, race]) => (
                 <option key={id} value={id}>{race.name}</option>
               ))}
@@ -111,13 +113,13 @@ export function CharacterFiltersBar({
 
           {/* Archetype filter */}
           <div>
-            <label className="text-xs text-slate-400 mb-1 block">Class</label>
+            <label className="text-xs text-slate-400 mb-1 block">{t('filters.class')}</label>
             <select
               value={filters.archetype}
               onChange={(e) => onChange({ ...filters, archetype: e.target.value as ArchetypeId | '' })}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
             >
-              <option value="">All Classes</option>
+              <option value="">{t('filters.allClasses')}</option>
               {Object.entries(ARCHETYPES).map(([id, arch]) => (
                 <option key={id} value={id}>{arch.icon} {arch.name}</option>
               ))}
@@ -126,7 +128,7 @@ export function CharacterFiltersBar({
 
           {/* Level range */}
           <div>
-            <label className="text-xs text-slate-400 mb-1 block">Level Range</label>
+            <label className="text-xs text-slate-400 mb-1 block">{t('filters.levelRange')}</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -148,9 +150,8 @@ export function CharacterFiltersBar({
             </div>
           </div>
 
-          {/* Professions filter */}
           <div>
-            <label className="text-xs text-slate-400 mb-1 block">Professions</label>
+            <label className="text-xs text-slate-400 mb-1 block">{t('filters.professions')}</label>
             <select
               value={filters.hasProfessions === null ? '' : filters.hasProfessions ? 'yes' : 'no'}
               onChange={(e) => onChange({ 
@@ -159,9 +160,9 @@ export function CharacterFiltersBar({
               })}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
             >
-              <option value="">All</option>
-              <option value="yes">Has professions</option>
-              <option value="no">No professions</option>
+              <option value="">{t('common.all')}</option>
+              <option value="yes">{t('filters.hasProfessions')}</option>
+              <option value="no">{t('filters.noProfessions')}</option>
             </select>
           </div>
         </div>
@@ -170,10 +171,10 @@ export function CharacterFiltersBar({
       {/* Results count and clear */}
       <div className="flex items-center justify-between text-sm">
         <span className="text-slate-400">
-          Showing <span className="text-white font-medium">{filteredCount}</span>
+          {t('filters.showing')} <span className="text-white font-medium">{filteredCount}</span>
           {filteredCount !== characterCount && (
-            <span> of {characterCount}</span>
-          )} characters
+            <span> {t('filters.of')} {characterCount}</span>
+          )} {t('filters.characters')}
         </span>
         {hasActiveFilters && (
           <button
@@ -181,7 +182,7 @@ export function CharacterFiltersBar({
             className="flex items-center gap-1 text-orange-400 hover:text-orange-300 transition-colors cursor-pointer"
           >
             <X size={14} />
-            Clear filters
+            {t('filters.clearFilters')}
           </button>
         )}
       </div>

@@ -6,6 +6,7 @@ import { CharacterWithProfessions, RankLevel, RANK_COLORS } from '@/lib/types';
 import { getRankSummary, checkRankLimits, PROFESSIONS_BY_TIER, TIER_CONFIG } from '@/lib/professions';
 import { RACES, ARCHETYPES, getClassName, RaceId, ArchetypeId } from '@/lib/characters';
 import { ProfessionSelector } from './ProfessionSelector';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CharacterCardProps {
   character: CharacterWithProfessions;
@@ -28,6 +29,7 @@ export function CharacterCard({
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(character.name);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { t } = useLanguage();
 
   const warnings = checkRankLimits(character.professions);
   const summary = getRankSummary(character.professions);
@@ -164,7 +166,7 @@ export function CharacterCard({
                   <button
                     onClick={(e) => { e.stopPropagation(); onEdit(character); }}
                     className="p-1 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
-                    title="Edit character details"
+                    title={t('character.editDetails')}
                   >
                     <Edit2 size={16} />
                   </button>

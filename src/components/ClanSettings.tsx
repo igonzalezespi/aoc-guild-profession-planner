@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Webhook, Bell, BellOff, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { testDiscordWebhook } from '@/lib/discord';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ClanSettingsProps {
   clanId: string;
@@ -28,6 +29,7 @@ export function ClanSettings({
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
+  const { t } = useLanguage();
 
   const handleSave = async () => {
     setSaving(true);
@@ -95,19 +97,19 @@ export function ClanSettings({
     <div className="bg-slate-900/80 backdrop-blur-sm rounded-lg border border-slate-700 p-6 space-y-6">
       <div className="flex items-center gap-3">
         <Webhook className="w-5 h-5 text-purple-400" />
-        <h3 className="text-lg font-semibold text-white">Discord Integration</h3>
+        <h3 className="text-lg font-semibold text-white">{t('discord.integration')}</h3>
       </div>
 
       {/* Webhook URL */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
-          Webhook URL
+          {t('discord.webhookUrl')}
         </label>
         <input
           type="url"
           value={webhookUrl}
           onChange={(e) => setWebhookUrl(e.target.value)}
-          placeholder="https://discord.com/api/webhooks/..."
+          placeholder={t('discord.webhookPlaceholder')}
           className={`w-full px-3 py-2 bg-slate-800 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
             webhookUrl && !isValidWebhookUrl(webhookUrl) 
               ? 'border-red-500' 
@@ -116,11 +118,11 @@ export function ClanSettings({
         />
         {webhookUrl && !isValidWebhookUrl(webhookUrl) && (
           <p className="text-xs text-red-400 mt-1">
-            Invalid webhook URL format. Must start with https://discord.com/api/webhooks/
+            {t('discord.invalidWebhook')}
           </p>
         )}
         <p className="text-xs text-slate-500 mt-1">
-          Get this from Discord: Server Settings → Integrations → Webhooks → New Webhook
+          {t('discord.webhookHint')}
         </p>
       </div>
 
@@ -134,12 +136,12 @@ export function ClanSettings({
           {testing ? (
             <>
               <Loader2 size={16} className="animate-spin" />
-              Testing...
+              {t('discord.testing')}
             </>
           ) : (
             <>
               <Webhook size={16} />
-              Test Webhook
+              {t('discord.testWebhook')}
             </>
           )}
         </button>
@@ -163,8 +165,8 @@ export function ClanSettings({
           <div className="flex items-center gap-3">
             <Bell size={18} className={eventsEnabled ? 'text-green-400' : 'text-slate-500'} />
             <div>
-              <span className="text-white text-sm font-medium">Event Notifications</span>
-              <p className="text-xs text-slate-500">Notify when new events are created</p>
+              <span className="text-white text-sm font-medium">{t('discord.eventNotifications')}</span>
+              <p className="text-xs text-slate-500">{t('discord.eventNotificationsDesc')}</p>
             </div>
           </div>
           <input
@@ -183,8 +185,8 @@ export function ClanSettings({
               <BellOff size={18} className="text-slate-500" />
             )}
             <div>
-              <span className="text-white text-sm font-medium">Announcement Notifications</span>
-              <p className="text-xs text-slate-500">Notify when announcements are posted</p>
+              <span className="text-white text-sm font-medium">{t('discord.announcementNotifications')}</span>
+              <p className="text-xs text-slate-500">{t('discord.announcementNotificationsDesc')}</p>
             </div>
           </div>
           <input
@@ -214,15 +216,15 @@ export function ClanSettings({
           {saving ? (
             <>
               <Loader2 size={16} className="animate-spin" />
-              Saving...
+              {t('discord.saving')}
             </>
           ) : saved ? (
             <>
               <Check size={16} />
-              Saved!
+              {t('discord.saved')}
             </>
           ) : (
-            'Save Settings'
+            t('discord.saveSettings')
           )}
         </button>
       </div>
